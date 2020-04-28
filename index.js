@@ -21,7 +21,8 @@ mongoose.connect(mongoURL,
 app.use(graphqlHTTP(
     {
         schema: schema,
-        rootValue: resolver
+        rootValue: resolver,
+        graphiql : true,
     }))
 
 app.use((req, res, next) => {
@@ -30,9 +31,11 @@ app.use((req, res, next) => {
 
 async function start() {
     try {
-        app.listen(PORT)
+        app.listen(PORT, () =>
+            console.log(`App has been started on port ${PORT} in ${process.env.NODE_ENV} mode`));
     } catch (e) {
-        console.log(e)
+        console.log('Server Error', e.message);
+        process.exit(1);
     }
 }
 
