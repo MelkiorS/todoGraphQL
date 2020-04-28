@@ -9,5 +9,13 @@ module.exports = {
             message: 'Cool MESSAGE',
             users
         }
+    },
+    randomNumber({min, max, count}) {
+        const arr = []
+        for (let i = 0; i < count; i++) {
+            const random = Math.random() * (max - min) + min
+            arr.push(random)
+        }
+        return arr
     }
 }
