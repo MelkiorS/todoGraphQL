@@ -16,4 +16,13 @@ module.exports = buildSchema(`
         test: TestType!
         randomNumber(min: Int!, max: Int!, count: Int!): [Float!]!
     }
+    
+    input InputUser {
+        name: String!
+        email: String!
+    }
+    
+    type Mutation {
+        addTestUser(user: InputUser!): User!
+    }
 `)
