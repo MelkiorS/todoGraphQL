@@ -12,9 +12,16 @@ module.exports = buildSchema(`
         users: [User!]! 
     }
 
+    type Todo {
+        id: ID!
+        title: String!
+        done: Boolean!
+    }
+
     type Query {
         test: TestType!
         randomNumber(min: Int!, max: Int!, count: Int!): [Float!]!
+        getTodos: [Todo!]!
     }
     
     input InputUser {
