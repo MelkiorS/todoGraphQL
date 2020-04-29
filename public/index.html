@@ -13,7 +13,7 @@
       display: none;
     }
   </style>
-  <title>Задачи</title>
+  <title>Tasks</title>
 </head>
 <body>
 <div id="app" v-cloak>
@@ -61,10 +61,10 @@
                 </v-flex>
               </v-container>
               <v-subheader class="subheading" v-if="todos.length === 0">
-                У вас 0 задач, добавьте новую
+                You have 0 task, add new one
               </v-subheader>
               <v-subheader class="subheading" v-else>
-                Ваши задачи
+                Your's tasks
               </v-subheader>
               <div v-for="(todo, i) in todos" :key="i">
                 <v-list-tile avatar>
@@ -81,8 +81,8 @@
                       {{todo.title | capitalize}}
                     </v-list-tile-title>
                     <v-list-tile-sub-title>
-                      Добавлено в: {{todo.createdAt | date(true)}} 
-                      (измененено {{todo.updatedAt | date(true)}})
+                      Add on: {{todo.createdAt | date(true)}}
+                      (change {{todo.updatedAt | date(true)}})
                     </v-list-tile-sub-title>
                   </v-list-tile-content>
                   <v-btn icon ripple color="red" @click="removeTodo(todo.id)">
