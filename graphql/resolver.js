@@ -34,5 +34,18 @@ module.exports = {
         } catch (e) {
             throw new Error('Fetch todos is not available')
         }
+    },
+
+    async addTodo({todo: {title}}) {
+        const todo = new Todo({
+            title,
+            done : false,
+        })
+
+        try {
+            return  await  todo.save()
+        } catch (e) {
+            throw new Error('Add todos is not available')
+        }
     }
 }

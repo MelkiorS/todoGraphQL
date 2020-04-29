@@ -29,7 +29,12 @@ module.exports = buildSchema(`
         email: String!
     }
     
+    input InputTodo {
+        title: String!
+    }
+    
     type Mutation {
         addTestUser(user: InputUser!): User!
+        addTodo(todo: InputTodo!): Todo!
     }
 `)

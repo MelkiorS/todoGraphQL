@@ -9,13 +9,12 @@ new Vue({
         }
     },
     created() {
-        const query = `
-    query {
-      getTodos {
-        title done
-      }
-    }
-  `
+        const query =`
+            query {
+                getTodos {
+                    title done
+                }
+           }`
         fetch('/graphql', {
             method: 'post',
             headers: {
@@ -25,7 +24,7 @@ new Vue({
             body: JSON.stringify({query})
         })
             .then(resp => resp.json())
-            .then(data => console.log(data));
+            .then(resp => this.todos = resp.data.getTodos);
     }
     ,
     methods: {
@@ -34,13 +33,25 @@ new Vue({
             if (!title) {
                 return
             }
-            fetch('/api/todo', {
+
+            const query = `
+                mutation {
+                     addTodo(todo: {title: "${title}" }){
+                        id done title
+                    }
+                }
+            `
+            fetch('/graphql', {
                 method: 'post',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({title})
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({query})
             })
                 .then(res => res.json())
-                .then(({todo}) => {
+                .then((resp) => {
+                    const todo = resp.data.addTodo
                     this.todos.push(todo)
                     this.todoTitle = ''
                 })
@@ -74,6 +85,9 @@ new Vue({
             return value.toString().charAt(0).toUpperCase() + value.slice(1)
         },
         date(value, withTime) {
+            if (!value) {
+                return 'No Data'
+            }
             const options = {
                 year: 'numeric',
                 month: 'long',
@@ -85,7 +99,7 @@ new Vue({
                 options.minute = '2-digit'
                 options.second = '2-digit'
             }
-            return new Intl.DateTimeFormat('en-En', options).format(new Date(value))
+            return new Intl.DateTimeFormat('en-En', options).format(new Date(+value))
         }
     }
 })
