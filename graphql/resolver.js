@@ -48,13 +48,23 @@ module.exports = {
             throw new Error('Add todos is not available')
         }
     },
-
     async completeTodo({id}){
         try {
             return await Todo.findByIdAndUpdate(
-                id,{done: true}, {new:true})
+                id,{done: true}, {
+                    new:true,
+                    useFindAndModify: false})
         } catch (e) {
-            throw new Error('Add todos is not available')
+            throw new Error('completeTodo is not available')
+        }
+    },
+    async deleteTodo({id}){
+        try {
+            await Todo.findByIdAndRemove(id,
+                {useFindAndModify: false})
+            return true
+        } catch (e) {
+            throw new Error('deleteTodo is not available')
         }
     }
 }
