@@ -47,5 +47,14 @@ module.exports = {
         } catch (e) {
             throw new Error('Add todos is not available')
         }
+    },
+
+    async completeTodo({id}){
+        try {
+            return await Todo.findByIdAndUpdate(
+                id,{done: true}, {new:true})
+        } catch (e) {
+            throw new Error('Add todos is not available')
+        }
     }
 }

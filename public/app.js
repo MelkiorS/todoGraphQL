@@ -12,7 +12,7 @@ new Vue({
         const query =`
             query {
                 getTodos {
-                    title done
+                    title done id
                 }
            }`
         fetch('/graphql', {
@@ -33,7 +33,6 @@ new Vue({
             if (!title) {
                 return
             }
-
             const query = `
                 mutation {
                      addTodo(todo: {title: "${title}" }){
@@ -67,15 +66,21 @@ new Vue({
                 .catch(e => console.log(e))
         },
         completeTodo(id) {
-            fetch('/api/todo/' + id, {
-                method: 'put',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({done: true})
+            const query = `
+            mutation {
+                completeTodo(id:"${id}"){done}
+            }`
+            fetch('/graphql', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'},
+                body: JSON.stringify({query})
             })
-                .then(res => res.json())
-                .then(({todo}) => {
-                    const idx = this.todos.findIndex(t => t.id === todo.id)
-                    this.todos[idx].updatedAt = todo.updatedAt
+                .then(resp => resp.json())
+                .then(resp => {
+                    const idx = this.todos.findIndex(t => t.id === id)
+                    this.todos[idx].done = resp.data.addTodo.done;
                 })
                 .catch(e => console.log(e))
         }
